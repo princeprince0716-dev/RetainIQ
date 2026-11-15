@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "RetainIQ"
+description = "A graduate-level demonstration platform for healthcare workforce retention analytics, with simulated turnover forecasts, department-level workforce momentum, voluntary surveys, and transparent recommendations."
+version = "1.0.0"
+id = "artifacts/retainiq"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25757
+
+[services.development]
+run = "pnpm --filter @workspace/retainiq run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/retainiq", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/retainiq/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25757"
+BASE_PATH = "/"
